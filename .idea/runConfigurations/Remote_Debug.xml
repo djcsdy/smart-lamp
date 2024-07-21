@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Remote Debug" type="CLion_Remote" version="1" remoteCommand="tcp:127.0.0.1:2345" symbolFile="$PROJECT_DIR$/target/thumbv6m-none-eabi/debug/smart-lamp" sysroot="">
+    <debugger kind="GDB" isBundled="true" />
+    <method v="2" />
+  </configuration>
+</component>
