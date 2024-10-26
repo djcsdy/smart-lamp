@@ -4,6 +4,12 @@ name = "smart-lamp"
 version = "0.0.0"
 license = "ISC"
 
+[[bin]]
+name = "smart-lamp"
+test = false
+doctest = false
+bench = false
+
 [dependencies]
 cortex-m = "0.7.7"
 cortex-m-rt = "0.7.3"
