@@ -10,8 +10,9 @@ use embassy_executor::Spawner;
 use embassy_rp::gpio::{Level, Output, Pin};
 use embassy_rp::peripherals::{DMA_CH0, PIO0};
 use embassy_rp::pio::{InterruptHandler, Pio, PioPin};
-use embassy_rp::{bind_interrupts, Peripheral};
-use embassy_time::{Duration, Timer};
+use embassy_rp::pwm::Pwm;
+use embassy_rp::{bind_interrupts, clocks, pwm, Peripheral};
+use embassy_time::{Duration, Ticker};
 #[allow(unused_imports)]
 use panic_probe as _;
 use static_cell::StaticCell;
@@ -75,7 +76,7 @@ async fn start_cyw43(
 async fn main(spawner: Spawner) {
     let peripherals = embassy_rp::init(Default::default());
 
-    let (_net_device, mut cyw43_control) = start_cyw43(
+    let (_net_device, _cyw43_control) = start_cyw43(
         &spawner,
         peripherals.PIN_23,
         peripherals.PIN_25,
@@ -86,15 +87,60 @@ async fn main(spawner: Spawner) {
     )
     .await;
 
-    let delay = Duration::from_secs(1);
+    let mut pwm_config = pwm::Config::default();
+    let pwm_frequency = 25000;
+    let pwm_top = unwrap!(u16::try_from(clocks::clk_sys_freq() / pwm_frequency)) - 1;
+    pwm_config.top = pwm_top;
+    pwm_config.compare_a = 0;
+    pwm_config.compare_b = 0;
+    let mut pwm = Pwm::new_output_ab(
+        peripherals.PWM_SLICE1,
+        peripherals.PIN_2,
+        peripherals.PIN_3,
+        pwm_config.clone(),
+    );
+
+    let mut ticker = Ticker::every(Duration::from_secs(1));
 
     loop {
-        info!("LED: on");
-        cyw43_control.gpio_set(0, true).await;
-        Timer::after(delay).await;
+        pwm_config.compare_a = pwm_top / 128;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
 
-        info!("LED: off");
-        cyw43_control.gpio_set(0, false).await;
-        Timer::after(delay).await;
+        pwm_config.compare_a = pwm_top / 64;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
+
+        pwm_config.compare_a = pwm_top / 32;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
+
+        pwm_config.compare_a = pwm_top / 16;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
+
+        pwm_config.compare_a = pwm_top / 8;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
+
+        pwm_config.compare_a = pwm_top / 4;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
+
+        pwm_config.compare_a = pwm_top / 2;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
+
+        pwm_config.compare_a = pwm_top;
+        pwm_config.compare_b = pwm_config.compare_a;
+        pwm.set_config(&pwm_config);
+        ticker.next().await;
     }
 }
