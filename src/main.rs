@@ -56,7 +56,7 @@ async fn start_cyw43(
     );
 
     static STATE: StaticCell<State> = StaticCell::new();
-    let state = STATE.init(State::new());
+    let state = STATE.init_with(|| State::new());
     let (net_driver, mut control, runner) = cyw43::new(state, power_control, spi, firmware).await;
     unwrap!(spawner.spawn(cyw43_driver(runner)));
 
