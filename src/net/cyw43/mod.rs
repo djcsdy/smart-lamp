@@ -6,6 +6,7 @@ use embassy_rp::gpio::{Level, Output, Pin};
 use embassy_rp::peripherals::{DMA_CH0, PIO0};
 use embassy_rp::pio::{InterruptHandler, Pio, PioPin};
 use embassy_rp::{bind_interrupts, Peripheral};
+use embassy_time::Timer;
 use static_cell::StaticCell;
 
 bind_interrupts!(struct Irqs {
@@ -54,6 +55,33 @@ pub async fn start_cyw43(
     info!("CYW43: Initializing");
     control.init(clm).await;
     info!("CYW43: Initialized");
+
+    let mut secrets = include_str!("secrets.txt").lines();
+    let ssid = secrets.next();
+    let passphrase = secrets.next().filter(|passphrase| *passphrase != "");
+
+    match ssid {
+        Some(ssid) => {
+            info!("CYW43: Joining {}", ssid);
+            loop {
+                let result = match passphrase {
+                    Some(passphrase) => control.join_wpa2(ssid, passphrase).await,
+                    None => control.join_open(ssid).await,
+                };
+                match result {
+                    Ok(_) => break,
+                    Err(err) => {
+                        info!("CYW43: Failed to join {}: {}", ssid, err.status);
+                        Timer::after_secs(2).await;
+                    }
+                }
+            }
+            info!("CYW43: Joined {}", ssid);
+        }
+        None => {
+            info!("CYW43: No WiFi SSID specified");
+        }
+    }
 
     info!("CYW43: Setting  power management to PowerSave");
     control
