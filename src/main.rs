@@ -16,7 +16,7 @@ use panic_probe as _;
 async fn main(spawner: Spawner) {
     let peripherals = embassy_rp::init(Default::default());
 
-    let (_net_device, _cyw43_control) = net::cyw43::start_cyw43(
+    let (net_device, _cyw43_control) = net::cyw43::start_cyw43(
         &spawner,
         peripherals.PIN_23,
         peripherals.PIN_25,
@@ -26,6 +26,8 @@ async fn main(spawner: Spawner) {
         peripherals.DMA_CH0,
     )
     .await;
+
+    net::tcp_ip::start_tcp_ip(&spawner, net_device).await;
 
     unwrap!(spawner.spawn(pwm_lights(
         peripherals.PWM_SLICE1,
