@@ -3,6 +3,7 @@
 
 mod light;
 mod net;
+mod web_api;
 
 use crate::light::pwm_lights;
 use defmt::*;
@@ -27,7 +28,9 @@ async fn main(spawner: Spawner) {
     )
     .await;
 
-    net::tcp_ip::start_tcp_ip(&spawner, net_device).await;
+    let tcp_ip_stack = net::tcp_ip::start_tcp_ip(&spawner, net_device).await;
+
+    web_api::start_web_api(&spawner, tcp_ip_stack);
 
     unwrap!(spawner.spawn(pwm_lights(
         peripherals.PWM_SLICE1,

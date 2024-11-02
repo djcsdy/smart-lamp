@@ -13,7 +13,10 @@ async fn tcp_ip_driver(stack: &'static Stack<cyw43::NetDriver<'static>>) {
     stack.run().await;
 }
 
-pub async fn start_tcp_ip(spawner: &Spawner, device: cyw43::NetDriver<'static>) {
+pub async fn start_tcp_ip(
+    spawner: &Spawner,
+    device: cyw43::NetDriver<'static>,
+) -> &'static Stack<cyw43::NetDriver<'static>> {
     info!("TCP/IP: Starting driver");
 
     let config = Config::dhcpv4(Default::default());
@@ -27,4 +30,6 @@ pub async fn start_tcp_ip(spawner: &Spawner, device: cyw43::NetDriver<'static>) 
     let stack = &*STACK.init(Stack::new(device, config, resources, random_seed));
 
     unwrap!(spawner.spawn(tcp_ip_driver(stack)));
+
+    stack
 }
