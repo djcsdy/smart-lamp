@@ -48,7 +48,7 @@ pub async fn start_cyw43(
     );
 
     static STATE: StaticCell<State> = StaticCell::new();
-    let state = STATE.init_with(|| State::new());
+    let state = STATE.init_with(State::new);
     let (net_driver, mut control, runner) = cyw43::new(state, power_control, spi, firmware).await;
     unwrap!(spawner.spawn(cyw43_driver(runner)));
 
@@ -58,7 +58,7 @@ pub async fn start_cyw43(
 
     let mut secrets = include_str!("secrets.txt").lines();
     let ssid = secrets.next();
-    let passphrase = secrets.next().filter(|passphrase| *passphrase != "");
+    let passphrase = secrets.next().filter(|passphrase| !passphrase.is_empty());
 
     match ssid {
         Some(ssid) => {
