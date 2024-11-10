@@ -11,3 +11,9 @@ pub enum OperatingMode {
     BusVoltageContinuous = 6,
     ShuntAndBusVoltageContinuous = 7,
 }
+
+impl Default for OperatingMode {
+    fn default() -> Self {
+        Self::ShuntAndBusVoltageContinuous
+    }
+}
