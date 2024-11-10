@@ -48,3 +48,9 @@ pub enum MeasurementMode {
     /// Conversion time of 68.10 ms.
     AverageOf128 = 0b1111,
 }
+
+impl Default for MeasurementMode {
+    fn default() -> Self {
+        Self::Resolution12Bit
+    }
+}
