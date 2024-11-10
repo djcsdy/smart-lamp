@@ -1,3 +1,6 @@
+use defmt::Format;
+
+#[derive(PartialEq, PartialOrd, Clone, Hash, Debug, Format)]
 pub enum ShuntVoltageGain {
     /// ×1 shunt voltage gain.
     /// 
