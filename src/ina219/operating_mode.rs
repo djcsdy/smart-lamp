@@ -10,5 +10,5 @@ pub enum OperatingMode {
     Disabled = 4,
     ShuntVoltageContinuous = 5,
     BusVoltageContinuous = 6,
-    ShuntAndBusVoltageContinuous = 7
+    ShuntAndBusVoltageContinuous = 7,
 }

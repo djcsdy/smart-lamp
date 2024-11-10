@@ -1,6 +1,6 @@
 mod bus_voltage_range;
-mod shunt_voltage_gain;
-mod measurement_mode;
-mod operating_mode;
 mod calibration;
 mod config;
+mod measurement_mode;
+mod operating_mode;
+mod shunt_voltage_gain;
