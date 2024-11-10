@@ -19,3 +19,9 @@ pub enum ShuntVoltageGain {
     /// Shunt voltage range is ±320mV.
     Eighth
 }
+
+impl Default for ShuntVoltageGain {
+    fn default() -> Self {
+        Self::Eighth
+    }
+}
