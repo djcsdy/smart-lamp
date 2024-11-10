@@ -1,7 +1,10 @@
+use defmt::Format;
+
 #[repr(u8)]
+#[derive(PartialEq, PartialOrd, Clone, Hash, Debug, Format)]
 pub enum MeasurementMode {
     /// 9 bits of resolution.
-    /// 
+    ///
     /// Conversion time of 84 μs.
     Resolution9Bit = 0b0000,
     /// 10 bits of resolution.
@@ -17,7 +20,7 @@ pub enum MeasurementMode {
     /// Conversion time of 532 μs.
     Resolution12Bit = 0b0011,
     /// Average of two samples with 12 bits of resolution.
-    /// 
+    ///
     /// Conversion time of 1.06 ms.
     AverageOf2 = 0b1001,
     /// Average of four samples with 12 bits of resolution.
