@@ -27,7 +27,7 @@ impl Calibration {
             shunt_resistance_ohms,
         }
     }
-    
+
     pub fn as_u16(&self) -> u16 {
         self.value
     }
