@@ -2,8 +2,8 @@ use defmt::Format;
 
 #[derive(PartialEq, PartialOrd, Clone, Hash, Debug, Format)]
 pub enum BusVoltageRange {
-    UpTo16V,
-    UpTo32V,
+    UpTo16V = 0,
+    UpTo32V = 1,
 }
 
 impl Default for BusVoltageRange {

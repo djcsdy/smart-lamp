@@ -12,3 +12,13 @@ pub struct Config {
     shunt_voltage_measurement_mode: MeasurementMode,
     operating_mode: OperatingMode,
 }
+
+impl Config {
+    pub fn as_u16(&self) -> u16 {
+        ((self.bus_voltage_range.clone() as u16) << 13)
+            & ((self.shunt_voltage_gain.clone() as u16) << 11)
+            & ((self.bus_voltage_measurement_mode.clone() as u16) << 7)
+            & ((self.shunt_voltage_measurement_mode.clone() as u16) << 3)
+            & (self.operating_mode.clone() as u16)
+    }
+}

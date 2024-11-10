@@ -5,19 +5,19 @@ pub enum ShuntVoltageGain {
     /// ×1 shunt voltage gain.
     ///
     /// Shunt voltage range is ±40mV.
-    None,
+    None = 0,
     /// ÷2 shunt voltage gain.
     ///
     /// Shunt voltage range is ±80mV.
-    Half,
+    Half = 1,
     /// ÷4 shunt voltage gain.
     ///
     /// Shunt voltage range is ±160mV.
-    Quarter,
+    Quarter = 2,
     /// ÷8 shunt voltage gain.
     ///
     /// Shunt voltage range is ±320mV.
-    Eighth,
+    Eighth = 3,
 }
 
 impl Default for ShuntVoltageGain {
