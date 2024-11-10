@@ -4,6 +4,7 @@
 mod light;
 mod net;
 mod web_api;
+mod ina219;
 
 use crate::light::pwm_lights;
 use defmt::*;
