@@ -1,6 +1,5 @@
 use defmt::Format;
 
-#[repr(u8)]
 #[derive(PartialEq, PartialOrd, Clone, Hash, Debug, Format)]
 pub enum MeasurementMode {
     /// 9 bits of resolution.
