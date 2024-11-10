@@ -1,4 +1,7 @@
+use defmt::Format;
+
 #[repr(u8)]
+#[derive(PartialEq, PartialOrd, Clone, Hash, Debug, Format)]
 pub enum OperatingMode {
     PowerDown = 0,
     ShuntVoltageTriggered = 1,
