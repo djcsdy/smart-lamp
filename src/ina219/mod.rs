@@ -3,3 +3,4 @@ mod shunt_voltage_gain;
 mod measurement_mode;
 mod operating_mode;
 mod calibration;
+mod config;
