@@ -14,10 +14,7 @@ async fn tcp_ip_driver(mut runner: Runner<'static, NetDriver<'static>>) {
     runner.run().await;
 }
 
-pub async fn start_tcp_ip(
-    spawner: &Spawner,
-    device: cyw43::NetDriver<'static>,
-) -> Stack<'static> {
+pub async fn start_tcp_ip(spawner: &Spawner, device: cyw43::NetDriver<'static>) -> Stack<'static> {
     info!("TCP/IP: Starting driver");
 
     let config = Config::dhcpv4(Default::default());
