@@ -17,7 +17,7 @@ enum HelloWorld {
 }
 
 #[embassy_executor::task]
-async fn web_api_task(stack: &'static Stack<cyw43::NetDriver<'static>>) {
+async fn web_api_task(stack: Stack<'static>) {
     let mut rx_buffer = [0; 1024];
     let mut tx_buffer = [0; 1024];
 
@@ -57,6 +57,6 @@ async fn web_api_task(stack: &'static Stack<cyw43::NetDriver<'static>>) {
     }
 }
 
-pub fn start_web_api(spawner: &Spawner, stack: &'static Stack<cyw43::NetDriver<'static>>) {
+pub fn start_web_api(spawner: &Spawner, stack: Stack<'static>) {
     unwrap!(spawner.spawn(web_api_task(stack)))
 }

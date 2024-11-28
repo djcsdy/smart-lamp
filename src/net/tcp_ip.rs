@@ -1,6 +1,7 @@
+use cyw43::NetDriver;
 use defmt::{info, unwrap};
 use embassy_executor::Spawner;
-use embassy_net::{Config, Stack, StackResources};
+use embassy_net::{Config, Runner, Stack, StackResources};
 use embassy_rp::clocks::RoscRng;
 use rand::RngCore;
 use static_cell::StaticCell;
@@ -8,15 +9,15 @@ use static_cell::StaticCell;
 const MAX_SOCKETS: usize = 32;
 
 #[embassy_executor::task]
-async fn tcp_ip_driver(stack: &'static Stack<cyw43::NetDriver<'static>>) {
+async fn tcp_ip_driver(mut runner: Runner<'static, NetDriver<'static>>) {
     info!("TCP/IP: Driver running");
-    stack.run().await;
+    runner.run().await;
 }
 
 pub async fn start_tcp_ip(
     spawner: &Spawner,
     device: cyw43::NetDriver<'static>,
-) -> &'static Stack<cyw43::NetDriver<'static>> {
+) -> Stack<'static> {
     info!("TCP/IP: Starting driver");
 
     let config = Config::dhcpv4(Default::default());
@@ -26,10 +27,9 @@ pub async fn start_tcp_ip(
 
     let random_seed = RoscRng.next_u64();
 
-    static STACK: StaticCell<Stack<cyw43::NetDriver<'static>>> = StaticCell::new();
-    let stack = &*STACK.init(Stack::new(device, config, resources, random_seed));
+    let (stack, runner) = embassy_net::new(device, config, resources, random_seed);
 
-    unwrap!(spawner.spawn(tcp_ip_driver(stack)));
+    unwrap!(spawner.spawn(tcp_ip_driver(runner)));
 
     stack
 }
