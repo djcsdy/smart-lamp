@@ -1,3 +1,5 @@
+#![allow(unused_imports, dead_code)]
+
 #![no_std]
 #![no_main]
 
