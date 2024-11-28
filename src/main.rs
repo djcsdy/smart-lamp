@@ -1,5 +1,4 @@
 #![allow(unused_imports, dead_code, clippy::module_inception)]
-
 #![no_std]
 #![no_main]
 
