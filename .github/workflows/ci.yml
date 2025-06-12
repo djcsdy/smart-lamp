@@ -17,9 +17,7 @@ jobs:
           contents: |
             Dummy
           write-mode: overwrite
-      - uses: dtolnay/rust-toolchain@1.82
-        with:
-          target: thumbv6m-none-eabi
+      - uses: dtolnay/rust-toolchain@stable
       - run: cargo install flip-link
       - run: cargo build --all
       - run: cargo build --all --release
@@ -36,9 +34,7 @@ jobs:
           contents: |
             Dummy
           write-mode: overwrite
-      - uses: dtolnay/rust-toolchain@1.82
-        with:
-          components: clippy
+      - uses: dtolnay/rust-toolchain@stable
       - run: cargo clippy --all-features -- --deny=warnings
   format:
     name: Check Formatting
@@ -53,7 +49,5 @@ jobs:
           contents: |
             Dummy
           write-mode: overwrite
-      - uses: dtolnay/rust-toolchain@1.82
-        with:
-          components: rustfmt
+      - uses: dtolnay/rust-toolchain@stable
       - run: cargo fmt -- --check
