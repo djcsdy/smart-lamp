@@ -20,7 +20,7 @@ embassy-rp = { version = "=0.2.0", features = ["defmt", "time-driver", "critical
 embassy-time = { version = "=0.3.2", features = ["defmt", "defmt-timestamp-uptime"] }
 defmt = "=0.3.100"
 defmt-rtt = "=1.1.0"
-fixed = { version = "=1.28.0", default-features = false }
+fixed = { version = "=1.30.0", default-features = false }
 low-profile = { git = "https://github.com/djcsdy/low-profile", rev = "a4071b9e4a0feb3dc0f4bc758ddb6c0aee890bb5", features = ["defmt", "json"] }
 panic-probe = { version = "=1.0.0", features = ["print-defmt"] }
 portable-atomic = { version = "=1.13.1", features = ["critical-section"] }
