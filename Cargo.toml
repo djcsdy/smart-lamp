@@ -11,7 +11,7 @@ doctest = false
 bench = false
 
 [dependencies]
-cortex-m-rt = "=0.7.5"
+cortex-m-rt = "=0.7.6"
 cyw43 = "=0.2.0"
 cyw43-pio = "=0.2.0"
 embassy-executor = { version = "=0.6.3", features = ["arch-cortex-m", "defmt", "executor-thread", "integrated-timers", "task-arena-size-16384"] }
